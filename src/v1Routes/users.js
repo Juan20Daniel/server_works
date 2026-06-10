@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const userController = require('../controllers/users');
+const { autenticate } = require('../middlewares');
 
 // Ruta para obtener todos los usuarios
 router.get('/', (req, res) => {
@@ -7,10 +9,10 @@ router.get('/', (req, res) => {
 });
 
 // Ruta para obtener un usuario por ID
-router.get('/:id', (req, res) => {
-    const userId = req.params.id;
-    res.json({ message: `Obtener usuario con ID: ${userId}` });
-});
+router.get('/:id',
+    autenticate,
+    userController.getUserById
+);
 
 // Ruta para crear un nuevo usuario
 router.post('/', (req, res) => {
