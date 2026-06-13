@@ -18,7 +18,7 @@ app.use(errorHandler);
 
 // Puerto de escucha
 const PORT = process.env.PORT || 3002;
-const HOST = process.env.HOST || 'localhost';
+const HOST = process.env.HOST || '0.0.0.0';
 
 const startServer = async () => {
     await connecDB();
