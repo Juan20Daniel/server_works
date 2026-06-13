@@ -21,11 +21,16 @@ const PORT = process.env.PORT || 3002;
 const HOST = process.env.HOST || '0.0.0.0';
 
 const startServer = async () => {
-    await connecDB();
+    try {
+        await connecDB();
 
-    app.listen(PORT, HOST, () => {
-        console.log(`Servidor en ejecución`);
-    });
+        app.listen(PORT, HOST, () => {
+            console.log(`Servidor en ejecución`);
+        });
+    } catch (error) {
+        console.error(error);
+        process.exit(1);
+    }
 }
 
 startServer();
