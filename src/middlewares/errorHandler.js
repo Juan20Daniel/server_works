@@ -11,7 +11,7 @@ const errorHandler = (err, req, res, next) => {
             data:err.data??undefined
         });
     }
-    if(process.env.NODE_ENV === 'develop') {
+    if(process.env.NODE_ENV === 'develop') {    
         console.log(err)
     }
     return res.status(errors['INTERNAL_SERVER'].status).json({
