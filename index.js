@@ -24,7 +24,7 @@ const startServer = async () => {
     await connecDB();
 
     app.listen(PORT, HOST, () => {
-        console.log(`Servidor escuchando en http://${HOST}:${PORT}`);
+        console.log(`Servidor en ejecución`);
     });
 }
 

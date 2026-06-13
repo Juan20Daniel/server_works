@@ -52,12 +52,12 @@ const login = async (email, password) => {
     const fields = "email password isActive";
     const user = await User.findOne({email}).select(fields);
     if(!user) {
-        throw new AppError('NOT_FOUND','La cuenta no fue encontrada o no existe',true);
+        throw new AppError('UNAUTHORIZED','Usuario o contraseña incorrectos',true);
     }
 
     const isPasswordOk = await comparePasswords(password, user.password);
     if(!isPasswordOk) {
-        throw new AppError('UNAUTHORIZED','La contraseña no es correcta',true);
+        throw new AppError('UNAUTHORIZED','Usuario o contraseña incorrectos',true);
     }
 
     if(!user.isActive) {
