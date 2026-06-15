@@ -5,36 +5,26 @@ const { createToken, createRefreshToken, verifyAndDecodeToken } = require('../ut
 const userService = require('./user');
 
 const register = async (data) => {
-    const { firstname, lastname, phone, email, password } = data;
-
-    const querys = [
-        User.findOne({email}).select('email'),
-        User.findOne({phone}).select('phone')
-    ]
+    const { firstname, lastname, email, password } = data;
     
-    const [emailExists, phoneExists] = await Promise.all(querys);
+    const emailExists = await User.findOne({email}).select('email');
 
     if(emailExists) {
         throw new AppError('DUPLICATE_EMAIL', 'El correo ya existe',true);
-    }
-    
-    if(phoneExists) {
-        throw new AppError('DUPLICATE_PHONE', 'El teléfono ya existe',true);
     }
 
     const passwordEncrypted = encryptPassword(password);
 
     const newUser = await User.create({
         firstname:firstname,
-        lastname:lastname, 
-        phone:phone, 
-        email:email, 
+        lastname:lastname,
+        email:email,
         password:passwordEncrypted
     });
     
     const token = createToken({id:newUser._id, role:newUser.role});
 
-    const refreshToken = createRefreshToken(user._id);
+    const refreshToken = createRefreshToken(newUser._id);
     const auth = {
         token:`Bearer ${token}`,
         refreshToken: `Bearer ${refreshToken}`

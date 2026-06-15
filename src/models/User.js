@@ -16,14 +16,6 @@ const userSchema = new mongoose.Schema(
             minlength: 3,
             maxlength: 40
         },
-        phone: {
-            type: String,
-            require: [true, 'EL teléfono es obligatorio'],
-            unique: true,
-            trim: true,
-            minlength: 10,
-            maxlength: 10
-        },
         email: {
             type: String,
             required: [true, 'El correo es obligatorio'],
