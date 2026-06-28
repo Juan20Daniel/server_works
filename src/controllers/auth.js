@@ -4,10 +4,10 @@ const asyncHandler = require('../utils/asyncHandler');
 const registerWithEmail = asyncHandler(async (req, res) => {
     const { firstname, lastname, email, password } = req.body;
 
-    const {user, auth} = await authService.register({
-        firstname, 
-        lastname, 
-        email, 
+    const {user, auth} = await authService.registerWithEmail({
+        firstname,
+        lastname,
+        email,
         password
     });
 
@@ -21,7 +21,7 @@ const registerWithEmail = asyncHandler(async (req, res) => {
 const loginWithEmail = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
     
-    const { user, auth } = await authService.login(email, password);
+    const { user, auth } = await authService.loginWithEmail(email, password);
 
     res.status(201).json({
         message:"Sesión iniciada",
@@ -30,12 +30,19 @@ const loginWithEmail = asyncHandler(async (req, res) => {
     });
 })
 
-const authWithGoogle = (req, res, next) => {
-    const { code } = req.query;
+const continueWithGoogle = async (req, res, next) => {
+    const { idToken } = req.body;
+
+   const result = await authService.continueWithGoogle(idToken);
+
+    res.status(201).json({
+        message:"Sesión iniciada",
+        ...result
+    });
 }
 
 module.exports = {
     registerWithEmail,
     loginWithEmail,
-    authWithGoogle,
+    continueWithGoogle,
 }

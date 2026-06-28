@@ -9,14 +9,21 @@ const createUserSchema = z.object({
     })
 });
 
-const loginSchema = z.object({
+const loginWihEmailSchema = z.object({
     body: z.object({
         email: z.email("El correo no es válido"),
         password: z.string("La contraseña no es válida").regex(/^.{8,100}$/, "La contraseña no es válida")
     })
 });
 
+const continueWithGoogleSchema = z.object({
+    body: z.object({
+        idToken: z.string("idToken no válido").regex(/^.{50,}$/, "El idToken no es válido")
+    })
+});
+
 module.exports = {
     createUserSchema,
-    loginSchema
+    loginWihEmailSchema,
+    continueWithGoogleSchema
 };
