@@ -2,6 +2,11 @@ const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema(
     {
+        profile_image: {
+            type: String,
+            default: null,
+            trim: true,
+        },
         firstname: {
             type: String,
             required: [true, 'El nombre es obligatorio'],
@@ -24,7 +29,7 @@ const userSchema = new mongoose.Schema(
         },
         password: {
             type: String,
-            required: [true, 'La contraseña es obligatoria'],
+            required: [false, 'La contraseña es obligatoria'],
             minlength: 6,
             select: false
         },
@@ -36,6 +41,16 @@ const userSchema = new mongoose.Schema(
         isActive: {
             type: Boolean,
             default: true
+        },
+        provider_id: {
+            type: String,
+            default: null,
+            trim: true,
+        },
+        provider: {
+            type: String,
+            enum: ['google'],
+            default: null
         }
     },
     {
