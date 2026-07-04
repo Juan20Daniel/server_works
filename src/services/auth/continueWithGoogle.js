@@ -3,14 +3,20 @@ const { createToken, createRefreshToken } = require('../../utils/jwt');
 const { OAuth2Client } = require('google-auth-library');
 const User = require('../../models/User');
 const userService = require('../user');
+const avatarColor = require('../../utils/avatarColor');
+
 const client = new OAuth2Client();
 
 const createAuth = (user) => {
-    const token = createToken({id:user._id, role:user.role});
+    const token = createToken({
+        id:user._id, 
+        role:user.role,
+        email:user.email
+    });
     const refreshToken = createRefreshToken(user._id);
     const auth = {
-        token:`Bearer ${token}`,
-        refreshToken: `Bearer ${refreshToken}`
+        token: token,
+        refreshToken: refreshToken
     }
 
     return auth;
@@ -74,7 +80,8 @@ const continueWithGoogle = async (idToken) => {
             email: payload.email,
             password: null,
             provider: 'google',
-            provider_id: payload.sub
+            provider_id: payload.sub,
+            avatarColor: avatarColor()
         });
     
         user = await userService.getById(newUser._id);

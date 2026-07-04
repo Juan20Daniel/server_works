@@ -28,9 +28,9 @@ const loginWithEmail = asyncHandler(async (req, res) => {
         auth,
         user
     });
-})
+});
 
-const continueWithGoogle = async (req, res, next) => {
+const continueWithGoogle = asyncHandler(async (req, res) => {
     const { idToken } = req.body;
 
    const result = await authService.continueWithGoogle(idToken);
@@ -39,10 +39,23 @@ const continueWithGoogle = async (req, res, next) => {
         message:"Sesión iniciada",
         ...result
     });
-}
+});
+
+const refresh = asyncHandler(async (req, res) => {
+    const { refreshToken } = req.body;
+   
+    const result = await authService.refresh(refreshToken);
+    
+    res.status(201).json({
+        message:"Sesión actializada",
+        ...result
+
+    });
+});
 
 module.exports = {
     registerWithEmail,
     loginWithEmail,
     continueWithGoogle,
+    refresh
 }
