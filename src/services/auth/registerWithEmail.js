@@ -2,6 +2,7 @@ const User = require("../../models/User");
 const { AppError } = require("../../utils/error");
 const { createToken, createRefreshToken } = require("../../utils/jwt");
 const { encryptPassword } = require("../../utils/password");
+const avatarColor = require('../../utils/avatarColor');
 const userService = require('../user');
 
 const registerWithEmail = async (data) => {
@@ -19,15 +20,20 @@ const registerWithEmail = async (data) => {
         firstname:firstname,
         lastname:lastname,
         email:email,
-        password:passwordEncrypted
+        password:passwordEncrypted,
+        avatarColor: avatarColor()
     });
     
-    const token = createToken({id:newUser._id, role:newUser.role});
+    const token = createToken({
+        id:newUser._id, 
+        role:newUser.role,
+        email:newUser.email
+    });
 
     const refreshToken = createRefreshToken(newUser._id);
     const auth = {
-        token:`Bearer ${token}`,
-        refreshToken: `Bearer ${refreshToken}`
+        token: token,
+        refreshToken: refreshToken
     }
 
     const user = await userService.getById(newUser._id);

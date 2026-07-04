@@ -22,8 +22,15 @@ const continueWithGoogleSchema = z.object({
     })
 });
 
+const refreshSchema = z.object({
+    body: z.object({
+        refreshToken: z.string("El refreshToken no es válido").regex(/^.{100,}$/, "El refreshToken no es válido")
+    })
+});
+
 module.exports = {
     createUserSchema,
     loginWihEmailSchema,
-    continueWithGoogleSchema
+    continueWithGoogleSchema,
+    refreshSchema
 };

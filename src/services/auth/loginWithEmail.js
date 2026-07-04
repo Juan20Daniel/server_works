@@ -26,12 +26,16 @@ const loginWithEmail = async (email, password) => {
 
     const userAutenticated = await userService.getById(user._id);
 
-    const token = createToken({id:userAutenticated._id, role:userAutenticated.role});
+    const token = createToken({
+        id:userAutenticated._id,
+        role:userAutenticated.role,
+        email:userAutenticated.email
+    });
 
     const refreshToken = createRefreshToken(userAutenticated._id);
     const auth = {
-        token:`Bearer ${token}`,
-        refreshToken: `Bearer ${refreshToken}`
+        token: token,
+        refreshToken: refreshToken
     }
 
     return {

@@ -4,7 +4,7 @@ const authController = require('../controllers/auth');
 const authSchema = require('../schemas/auth.schame');
 const { validateField } = require('../middlewares');
 
-router.post('/register-with-email', 
+router.post('/register-with-email',
     validateField(authSchema.createUserSchema),
     authController.registerWithEmail
 );
@@ -13,9 +13,14 @@ router.post('/login-with-email',
     validateField(authSchema.loginWihEmailSchema),
     authController.loginWithEmail
 );
-router.post('/continue-with-google', 
+router.post('/continue-with-google',
     validateField(authSchema.continueWithGoogleSchema),
     authController.continueWithGoogle
+);
+
+router.post('/refresh',
+    validateField(authSchema.refreshSchema),
+    authController.refresh
 );
 
 module.exports = router;

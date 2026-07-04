@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { minLength } = require('zod');
 
 const userSchema = new mongoose.Schema(
     {
@@ -51,6 +52,12 @@ const userSchema = new mongoose.Schema(
             type: String,
             enum: ['google'],
             default: null
+        },
+        avatarColor: {
+            type: String,
+            trim: true,
+            minLength: 7,
+            maxlength: 7,
         }
     },
     {
