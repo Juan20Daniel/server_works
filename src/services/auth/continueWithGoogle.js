@@ -52,9 +52,9 @@ const updateUser = async (lastUser, newUser) => {
     }
 }
 
-const continueWithGoogle = async (idToken) => {
+const continueWithGoogle = async (accessToken) => {
     const ticket = await client.verifyIdToken({
-        idToken: idToken,
+        idToken: accessToken,
         audience: [
             process.env.GOOGLE_CLIENT_ID_ANDROID,
             process.env.GOOGLE_CLIENT_ID_IOS
