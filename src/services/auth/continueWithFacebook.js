@@ -1,5 +1,7 @@
 const { AppError } = require('../../utils/error');
 const { createRemoteJWKSet, jwtVerify } = require('jose');
+const { createAuth } = require('../../utils/jwt');
+const userService = require('../user');
 
 const verifyAccessToken = async (accessToken) => {
     const url = new URL('https://graph.facebook.com/debug_token');
@@ -20,7 +22,6 @@ const verifyAccessToken = async (accessToken) => {
    
     const { data } = await response.json();
     if(!data.is_valid) {
-        console.log(data);
         throw new AppError(
             'FACEBOOK_INVALID_TOKEN',
             'El token de Facebook no es válido.',
@@ -29,13 +30,11 @@ const verifyAccessToken = async (accessToken) => {
     }
 
     if(data.app_id !== process.env.FACEBOOK_APP_ID) {
-        console.log({app_id:process.env.FACEBOOK_APP_ID})
         throw new AppError(
             'FACEBOOK_INVALID_APP',
             'El token no pertenece a esta aplicación.',
         );
     }
-    // console.log(data);
     return data;
 }
 
@@ -59,13 +58,19 @@ const getProfileFromAccessToken = async (accessToken) => {
 
     const data = await response.json();
 
-    return data;
+    return {
+        picture: data.picture.data.url,
+        given_name: data.first_name,
+        family_name: data.last_name,
+        email: data.email,
+        sub: data.id,
+    }
 }
 
 const authenticateWithAccessToken = async (accessToken) => {
     await verifyAccessToken(accessToken);
-    await getProfileFromAccessToken(accessToken);
-    return true
+    const data = await getProfileFromAccessToken(accessToken);
+    return await loginOrRegister(data);
 }
 
 const verifyAuthenticationToken = async (token) => {
@@ -79,7 +84,13 @@ const verifyAuthenticationToken = async (token) => {
             audience: process.env.FACEBOOK_APP_ID,
         });
 
-        console.log(payload);
+        return {
+            picture: payload.picture,
+            given_name: payload.given_name,
+            family_name: payload.family_name,
+            email: payload.email,
+            sub: payload.sub
+        }
     } catch (error) {
         throw new AppError(
             'FACEBOOK_INVALID_TOKEN',
@@ -90,7 +101,46 @@ const verifyAuthenticationToken = async (token) => {
 }
 
 const authenticateWithAuthenticationToken = async (token) => {
-    await verifyAuthenticationToken(token);
+    const data = await verifyAuthenticationToken(token);
+    return await loginOrRegister(data);
+}
+
+const loginOrRegister = async (profile) => {
+    let [ user, emailExists ] = await Promise.all([
+        userService.getByProviderId(profile.sub),
+        userService.getByEmail(profile.email),
+    ]);
+
+    if(emailExists && !user) {
+        throw new AppError(
+            'DUPLICATE_EMAIL', 
+            'El correo ya existe',
+            true
+        );
+    }
+
+    if(!user) {
+        user = await userService.createByProvider(profile, 'facebook');
+        return {
+            user: user,
+            auth: createAuth(user)
+        }
+    }
+
+    if(user.provider !== 'facebook') {
+        throw new AppError('UNAUTHORIZED', 'La cuenta fue iniciada con otro servicio', true);
+    }
+
+    if(!user.isActive) {
+        throw new AppError('FORBIDDEN','La cuenta no esta activa',true);
+    }
+
+    user = await userService.updateByProvider(user, profile);
+
+    return {
+        user: user,
+        auth: createAuth(user)
+    }
 }
 
 const continueWithFacebook = async (tokenType, token) => {

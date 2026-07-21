@@ -44,10 +44,11 @@ const continueWithGoogle = asyncHandler(async (req, res) => {
 const continueWithFacebook = asyncHandler(async (req, res) => {
     const { token, tokenType } = req.body;
 
-   authService.continueWithFacebook(tokenType, token);
+   const result = await authService.continueWithFacebook(tokenType, token);
 
     res.status(201).json({
         message:"Sesión iniciada",
+        ...result
     });
 });
 

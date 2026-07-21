@@ -50,7 +50,7 @@ const userSchema = new mongoose.Schema(
         },
         provider: {
             type: String,
-            enum: ['google'],
+            enum: ['google','facebook'],
             default: null
         },
         avatarColor: {
