@@ -18,9 +18,17 @@ const loginWihEmailSchema = z.object({
 
 const continueWithGoogleSchema = z.object({
     body: z.object({
-        idToken: z.string("idToken no válido").regex(/^.{50,}$/, "El idToken no es válido")
+        accessToken: z.string("AccessToken no válido").regex(/^.{50,}$/, "El accessToken no es válido")
     })
 });
+
+const continueWithFacebookSchema = z.object({
+    body: z.object({
+        token: z.string("Token no válido").regex(/^.{50,}$/, "El token no es válido"),
+        tokenType: z.string("TypeToken no válido").regex(/^authentication_token|access_token$/, "El typeToken no es válido")
+    })
+});
+
 
 const refreshSchema = z.object({
     body: z.object({
@@ -32,5 +40,6 @@ module.exports = {
     createUserSchema,
     loginWihEmailSchema,
     continueWithGoogleSchema,
+    continueWithFacebookSchema,
     refreshSchema
 };

@@ -13,9 +13,15 @@ router.post('/login-with-email',
     validateField(authSchema.loginWihEmailSchema),
     authController.loginWithEmail
 );
+
 router.post('/continue-with-google',
     validateField(authSchema.continueWithGoogleSchema),
     authController.continueWithGoogle
+);
+
+router.post('/continue-with-facebook',
+    validateField(authSchema.continueWithFacebookSchema),
+    authController.continueWithFacebook
 );
 
 router.post('/refresh',

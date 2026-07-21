@@ -31,9 +31,20 @@ const loginWithEmail = asyncHandler(async (req, res) => {
 });
 
 const continueWithGoogle = asyncHandler(async (req, res) => {
-    const { idToken } = req.body;
+    const { accessToken } = req.body;
 
-   const result = await authService.continueWithGoogle(idToken);
+   const result = await authService.continueWithGoogle(accessToken);
+
+    res.status(201).json({
+        message:"Sesión iniciada",
+        ...result
+    });
+});
+
+const continueWithFacebook = asyncHandler(async (req, res) => {
+    const { token, tokenType } = req.body;
+
+   const result = await authService.continueWithFacebook(tokenType, token);
 
     res.status(201).json({
         message:"Sesión iniciada",
@@ -57,5 +68,6 @@ module.exports = {
     registerWithEmail,
     loginWithEmail,
     continueWithGoogle,
+    continueWithFacebook,
     refresh
 }
