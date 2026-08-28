@@ -13,16 +13,19 @@
   "description": "",
   "dependencies": {
     "bcrypt": "6.0.0",
+    "body-parser": "2.3.0",
+    "brace-expansion": "1.1.18",
     "cors": "2.8.6",
     "dotenv": "17.2.1",
     "express": "5.2.1",
     "google-auth-library": "10.7.0",
-    "jose": "^6.2.3",
+    "jose": "6.2.3",
     "jsonwebtoken": "9.0.3",
-    "mongoose": "9.4.1",
+    "mongoose": "9.7.2",
+    "multer": "2.2.0",
     "zod": "4.3.6"
   },
   "devDependencies": {
-    "nodemon": "^3.1.10"
+    "nodemon": "3.1.10"
   }
 }
