@@ -19,6 +19,11 @@ const companySchema = new mongoose.Schema(
             require: [true, 'La descripción es requerida'],
             minLength: 10,
             maxLength: 200
+        },
+        createBy: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref:'User',
+            require: true
         }
     },
     {

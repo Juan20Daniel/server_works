@@ -1,13 +1,14 @@
 const asyncHandler = require("../utils/asyncHandler");
+const companyServices = require('../services/company');
 
 const createCompany = asyncHandler(async (req, res) => {
     
-    console.log(req.body)
+    await companyServices.createCompany(req.user, req.body, req.file);
 
     res.status(201).json({
         message: 'Empresa creada',
        
-    })
+    });
 });
 
 module.exports = {
