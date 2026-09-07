@@ -18,6 +18,9 @@ class S3Storage {
 
         return key;
     }
+    async getFile() {
+
+    }
 }
 
 module.exports = S3Storage;
