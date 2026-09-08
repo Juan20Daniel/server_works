@@ -1,19 +1,19 @@
 const Company = require('../../models/Company');
-const normalizePageNum = require('../../utils/normalizePageNum');
 
-const getByCreatorId = async (id, page=1) => {
-    console.log({page:normalizePageNum(page)});
-
-    const limit = 10;
-    const companys = await Company.find({
+const getByCreatorId = async (id, page=1, limit=10) => {
+    const companies = await Company.find({
         createBy: id,
         isActive: true
     })
     .select('-__v')
-    .limit(10)
+    .limit(limit)
     .skip((page - 1) * limit)
 
-    return companys;
+    return {
+        companies,
+        nextPage: Number(page)+1,
+        limit: Number(limit)
+    }
 }
 
 module.exports = getByCreatorId;
