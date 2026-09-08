@@ -1,4 +1,5 @@
-const { PutObjectCommand } = require('@aws-sdk/client-s3');
+const { PutObjectCommand, GetObjectCommand } = require('@aws-sdk/client-s3');
+const { getSignedUrl } = require('@aws-sdk/s3-request-presigner');
 
 class S3Storage {
     constructor(client, bucket) {
@@ -18,8 +19,17 @@ class S3Storage {
 
         return key;
     }
-    async getFile() {
+    getFileUrl({key, expiresIn = 900}) {
+        const command = new GetObjectCommand({
+            Bucket: this.bucket,
+            Key: key
+        });
 
+        return getSignedUrl(
+            this.client,
+            command,
+            {expiresIn}
+        );
     }
 }
 
