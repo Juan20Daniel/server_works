@@ -27,7 +27,7 @@ const processImage = async (file) => {
     return logoName;
 }
 
-const createCompany = async (user, data, file) => {
+const create = async (user, data, file) => {
     const { name, desc } = data;
     let logoName = await processImage(file);
 
@@ -35,10 +35,10 @@ const createCompany = async (user, data, file) => {
         logo: logoName,
         name: name,
         desc: desc,
-        createBy: user.id
+        createdBy: user.id
     });
 
     return await getCompanyById(newCompanyId);
 }
 
-module.exports = createCompany;
+module.exports = create;

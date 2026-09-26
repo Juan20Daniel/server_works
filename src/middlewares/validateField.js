@@ -8,7 +8,7 @@ const validateField = (schema) => {
             params: req.params,
             query: req.query
         });
-
+       
        if(!result.success) {
             const errors = result.error.issues.map(error => {
                 const {path, message} = error;
@@ -24,7 +24,10 @@ const validateField = (schema) => {
                 errors
             ));
         }
-        
+    
+        if(result.data.query) {
+            req.validatedQuery = result.data;
+        }
         next();
     }
 }

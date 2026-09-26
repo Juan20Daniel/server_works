@@ -11,18 +11,18 @@ const {
     uploadImage
 } = require('../middlewares');
 
-router.get('/by-creator-id', 
+router.get('/', 
     autenticate,
     authorize([ROLES.USER, ROLES.ADMIN]),
-    validateField(companySchema.getByCreatorIdSchema),
-    companyController.getCompanysByCreatorId
+    validateField(companySchema.getSchema),
+    companyController.getCompanies
 );
 
 router.post('/',
     autenticate,
     authorize([ROLES.USER, ROLES.ADMIN]),
     uploadImage(UPLOAD_POLICIES.COMPANY_LOGO),
-    validateField(companySchema.createCompanySchema),
+    validateField(companySchema.createSchema),
     companyController.createCompany
 );
 

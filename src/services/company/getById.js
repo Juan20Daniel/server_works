@@ -8,7 +8,7 @@ const getById = async (id) => {
     if(!company.logo) return company;
 
     const logoUrl = await storage.getFileUrl({
-        key:`companyLogo/${company.logo}`,
+        key:`companyLogo/${company.logo}`
     });
 
     company.logo = logoUrl;

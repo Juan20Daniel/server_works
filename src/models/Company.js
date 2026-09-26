@@ -20,7 +20,7 @@ const companySchema = new mongoose.Schema(
             minLength: 10,
             maxLength: 200
         },
-        createBy: {
+        createdBy: {
             type: mongoose.Schema.Types.ObjectId,
             ref:'User',
             require: true

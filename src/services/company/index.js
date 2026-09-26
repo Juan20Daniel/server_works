@@ -1,9 +1,9 @@
-const createCompany = require('./createCompany');
+const get = require('./get');
 const getById = require('./getById');
-const getByCreatorId = require('./getByCreatorId');
+const create = require('./create');
 
 module.exports = {
-    createCompany,
+    create,
     getById,
-    getByCreatorId
+    get
 }

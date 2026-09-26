@@ -1,11 +1,10 @@
 const asyncHandler = require("../utils/asyncHandler");
 const companyServices = require('../services/company');
 
-const getCompanysByCreatorId = asyncHandler(async (req, res) => {
-    const result = await companyServices.getByCreatorId(
-        req.user.id,
-        req.query.page,
-        req.query.limit
+const getCompanies = asyncHandler(async (req, res) => {
+   
+    const result = await companyServices.get(
+        req.validatedQuery
     );
 
     res.status(201).json({
@@ -17,7 +16,7 @@ const getCompanysByCreatorId = asyncHandler(async (req, res) => {
 });
 
 const createCompany = asyncHandler(async (req, res) => {
-    const company = await companyServices.createCompany(
+    const company = await companyServices.create(
         req.user, 
         req.body, 
         req.file
@@ -31,5 +30,5 @@ const createCompany = asyncHandler(async (req, res) => {
 
 module.exports = {
     createCompany,
-    getCompanysByCreatorId
+    getCompanies
 }
