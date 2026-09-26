@@ -6,6 +6,7 @@ const errors = {
     UNAUTHORIZED:{code:'UNAUTHORIZED', status:401},
     NOT_FOUND:{code:'NOT_FOUND', status:404},
     INTERNAL_SERVER:{code:'INTERNAL_SERVER', status:500},
+    UNSUPPORTED_MEDIA_TYPE:{code:'UNSUPPORTED_MEDIA_TYPE', status:415},
     FORBIDDEN:{code:'FORBIDDEN', status:403}, //Pero intenta acceder a un recurso exclusivo pero los privilegios no son suficientes
     INVALID_FACEBOOK_TOKEN_TYPE: {code:'INVALID_FACEBOOK_TOKEN_TYPE', status:400},
     FACEBOOK_INVALID_TOKEN: {code:'FACEBOOK_INVALID_TOKEN', status:401},

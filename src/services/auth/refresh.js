@@ -7,7 +7,8 @@ const {
 } = require('../../utils/jwt');
 
 const refresh = async (refreshToken) => {
-    const verifyAndDecodeResults = await verifyAndDecodeToken(refreshToken);
+    const token = refreshToken.split(' ')[1];
+    const verifyAndDecodeResults = await verifyAndDecodeToken(token);
     
     const user = await userService.getById(verifyAndDecodeResults.id)
     if(!user) {

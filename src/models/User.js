@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const { minLength } = require('zod');
 
 const userSchema = new mongoose.Schema(
     {
@@ -10,27 +9,27 @@ const userSchema = new mongoose.Schema(
         },
         firstname: {
             type: String,
-            required: [true, 'El nombre es obligatorio'],
+            required: [true, 'El nombre es requerido'],
             trim: true,
             minlength: 3,
             maxlength: 40
         },
         lastname: {
             type: String,
-            required: [true, 'El apellido es obligatorio'],
+            required: [true, 'El apellido es requerido'],
             trim: true,
             minlength: 3,
             maxlength: 40
         },
         email: {
             type: String,
-            required: [true, 'El correo es obligatorio'],
+            required: [true, 'El correo es requerido'],
             unique: true,
             trim: true,
         },
         password: {
             type: String,
-            required: [false, 'La contraseña es obligatoria'],
+            required: [false, 'La contraseña es requerido'],
             minlength: 6,
             select: false
         },

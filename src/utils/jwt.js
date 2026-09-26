@@ -11,9 +11,7 @@ const createRefreshToken = (userId) => {
 
 const verifyAndDecodeToken = (token) => {
     try {
-        const formatToken = token.split(' ')[1];
-       
-        return jwt.verify(formatToken, process.env.SECRET_KEY);
+        return jwt.verify(token, process.env.SECRET_KEY);
     } catch (error) {
         throw new AppError('UNAUTHORIZED', 'El token no es válido', true);
     }

@@ -11,9 +11,11 @@ const autenticate = (req, res, next) => {
     }
 
     const token = req.headers['authorization'].split(' ')[1];
-    // const
-    console.log(verifyAndDecodeToken(token));
-   
+
+    const payload = verifyAndDecodeToken(token);
+    
+    req.user = payload;
+    
     next();
 }
 
