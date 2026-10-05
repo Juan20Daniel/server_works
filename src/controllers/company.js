@@ -16,6 +16,7 @@ const getCompanies = asyncHandler(async (req, res) => {
 });
 
 const createCompany = asyncHandler(async (req, res) => {
+    console.log('exce')
     const company = await companyServices.create(
         req.user, 
         req.body, 
