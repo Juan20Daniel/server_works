@@ -24,10 +24,11 @@ const validateField = (schema) => {
                 errors
             ));
         }
-    
+        
         if(result.data.query) {
-            req.validatedQuery = result.data;
+            req.validatedQuery = result.data.query;
         }
+
         next();
     }
 }

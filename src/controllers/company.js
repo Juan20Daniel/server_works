@@ -2,11 +2,10 @@ const asyncHandler = require("../utils/asyncHandler");
 const companyServices = require('../services/company');
 
 const getCompanies = asyncHandler(async (req, res) => {
-   
     const result = await companyServices.get(
         req.validatedQuery
     );
-
+    console.log(result);
     res.status(201).json({
         message: 'Lista de empresas por creador',
         nextPage: result.nextPage,
@@ -16,13 +15,12 @@ const getCompanies = asyncHandler(async (req, res) => {
 });
 
 const createCompany = asyncHandler(async (req, res) => {
-    console.log('exce')
     const company = await companyServices.create(
         req.user, 
         req.body, 
         req.file
     );
-
+    
     res.status(201).json({
         message: 'Empresa creada',
         company: company

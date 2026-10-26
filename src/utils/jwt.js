@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const { AppError } = require('./error');
 
 const createToken = (data) => {
+    // return jwt.sign(data, process.env.SECRET_KEY, {expiresIn:60*1});
     return jwt.sign(data, process.env.SECRET_KEY, {expiresIn:60*60*24});
 }
 

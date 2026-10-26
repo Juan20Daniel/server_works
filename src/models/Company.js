@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { id } = require('zod/locales');
 
 const companySchema = new mongoose.Schema(
     {
@@ -11,13 +12,14 @@ const companySchema = new mongoose.Schema(
             type: String,
             trim: true,
             require: [true, 'El nombre es requerido'],
+            minLength: 1,
             maxLength: 50
         },
         desc: {
             type: String,
             trim: true,
             require: [true, 'La descripción es requerida'],
-            minLength: 10,
+            minLength: 1,
             maxLength: 200
         },
         createdBy: {

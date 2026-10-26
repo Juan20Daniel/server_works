@@ -8,7 +8,7 @@ const {
 
 const refresh = async (refreshToken) => {
     const token = refreshToken.split(' ')[1];
-    const verifyAndDecodeResults = await verifyAndDecodeToken(token);
+    const verifyAndDecodeResults = verifyAndDecodeToken(token);
     
     const user = await userService.getById(verifyAndDecodeResults.id)
     if(!user) {
