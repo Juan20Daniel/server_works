@@ -1,4 +1,4 @@
-const colors = [
+const solidColors = [
     '#9A7F20',
     '#555555',
     '#6F0404',
@@ -15,8 +15,8 @@ const colors = [
 ];
 
 const avatarColor = () => {
-    const randomNum = Math.floor(Math.random() * colors.length);
-    return colors[randomNum];
+    const randomNum = Math.floor(Math.random() * solidColors.length);
+    return solidColors[randomNum];
 }
 
 module.exports = avatarColor;

@@ -1,12 +1,41 @@
 const mongoose = require('mongoose');
-const { id } = require('zod/locales');
+const getInitials = require('../utils/initials');
+const getColorIndex = require('../utils/colorIndex');
+const { PALETTE_SIZE } = require('../constants');
+
+const logoSchema = new mongoose.Schema(
+    {
+        url: {
+            type: String,
+            trim: true,
+            default: null
+        },
+        fallback: {
+            initials: {
+                type: String,
+                uppercase: true,
+                trim: true,
+                maxLength: 2,
+                require: true
+            },
+            colorIndex: {
+                type: Number,
+                min: 0,
+                max: PALETTE_SIZE - 1,
+                default: 0
+            }
+        }
+    },
+    {
+        _id:false
+    }
+)
 
 const companySchema = new mongoose.Schema(
     {
         logo: {
-            type: String,
-            trim: true,
-            default: null
+            type: logoSchema,
+            default: () => ({})
         },
         name: {
             type: String,
@@ -27,6 +56,7 @@ const companySchema = new mongoose.Schema(
             ref:'User',
             require: true
         },
+
         isActive: {
             type: Boolean,
             default: true
@@ -36,5 +66,12 @@ const companySchema = new mongoose.Schema(
         timestamps: true
     }
 );
+
+companySchema.pre("validate", async function () {
+    if (this.isNew || this.isModified("name")) {
+        this.logo.fallback.initials = getInitials(this.name);
+        this.logo.fallback.colorIndex = getColorIndex(this.name);
+    }
+});
 
 module.exports = mongoose.model('Company', companySchema);

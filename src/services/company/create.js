@@ -32,10 +32,12 @@ const create = async (user, data, file) => {
     let logoName = await processImage(file);
 
     const { _id:newCompanyId } = await Company.create({
-        logo: logoName,
         name: name,
         desc: desc,
-        createdBy: user.id
+        createdBy: user.id,
+        logo: {
+            url:logoName
+        }
     });
 
     return await getCompanyById(newCompanyId);
